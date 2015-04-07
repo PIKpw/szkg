@@ -28,7 +28,7 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
-    <bean id="gameDao" class="pl.edu.pw.elka.pik.dao.GameDAOImpl">
+    <bean id="gameDAO" class="pl.edu.pw.elka.pik.dao.GameDAOImpl">
         <constructor-arg>
             <ref bean="sessionFactory" />
         </constructor-arg>
