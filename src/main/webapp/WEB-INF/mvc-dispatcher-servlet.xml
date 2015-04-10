@@ -20,7 +20,7 @@
     <mvc:annotation-driven />
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="configLocation" value="hibernate.cfg.xml" />
+        <property name="configLocation" value="resources/hibernate.cfg.xml" />
     </bean>
 
     <tx:annotation-driven />
