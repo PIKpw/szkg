@@ -339,8 +339,8 @@
             if (validateEditModal())
             {
                 $scope.uploadFile();
+                $scope.reloadGameList();
             }
-            $scope.reloadGameList();
         };
 
         $scope.uploadFile = function() {

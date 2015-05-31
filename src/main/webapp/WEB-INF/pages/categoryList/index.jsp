@@ -208,14 +208,7 @@
         {
             $http.get('categoryList/deleteCategory?categoryId=' + $scope.categoryToDelete.id).
                     success(function(data, status, headers, config) {
-                        $http.get('categoryList/getCategoryList?pageNum=' + $scope.currPage).
-                                success(function(data, status, headers, config) {
-                                    $scope.categoryList = data;
-
-                                }).
-                                error(function(data, status, headers, config) {
-                                    alert('<spring:message code="category.list.error.message"/>');
-                                });
+                       $scope.reloadCategory();
                     }).
                     error(function(data, status, headers, config) {
                         alert('<spring:message code="category.list.error.message"/>');
@@ -286,6 +279,7 @@
             if (validateEditModal())
             {
                 $scope.updateCategory();
+                $scope.reloadCategory();
             }
         };
 
