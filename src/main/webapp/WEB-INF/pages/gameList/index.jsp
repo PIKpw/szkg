@@ -295,8 +295,16 @@
         $scope.cancelEditing = function()
         {
             clearEditModal();
-            $scope.setDetailParameter($scope.editingGameId);
-            enterEdit(false);
+            if ($scope.editingGameId != "new")
+            {
+                $scope.setDetailParameter($scope.editingGameId);
+                enterEdit(false);
+            }
+            else
+            {
+                $('#detailModal').modal('hide');
+            }
+
         };
 
         $scope.setDetailParameter = function(gameId)
