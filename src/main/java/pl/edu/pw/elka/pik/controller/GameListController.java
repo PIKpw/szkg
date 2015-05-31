@@ -57,6 +57,9 @@ public class GameListController extends BaseController {
         if (image != null) {
             response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
             response.getOutputStream().write(image);
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+            response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+            response.setDateHeader("Expires", 0); // Proxies.
             response.getOutputStream().close();
         } else {
             throw new NoSuchRequestHandlingMethodException(request);

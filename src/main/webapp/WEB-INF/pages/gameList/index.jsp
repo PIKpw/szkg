@@ -111,7 +111,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="game in gameList">
-                            <td><div align="center"><img ng-src="gameList/getGameImge?gameId={{game.id}}" width="184" height="69" alt="Brak"/></div></td>
+                            <td><div align="center"><img id="img-id-{{game.id}}" ng-src="gameList/getGameImge?gameId={{game.id}}&time={{time}}" width="184" height="69" alt="Brak"/></div></td>
                             <td>{{game.title}}</td>
                             <td>
                                 <span class="pull-right">
@@ -248,6 +248,8 @@
     {
         $scope.currPage = 1;
         $scope.gamesPerPage = 10;
+        $scope.time = new Date().getTime();
+
 
         $scope.deleteGame = function(gameId)
         {
@@ -260,14 +262,7 @@
         {
             $http.get('gameList/deleteGame?gameId=' + $scope.gameToDelete.id).
                     success(function(data, status, headers, config) {
-                        $http.get('gameList/getGameList?pageNum=' + $scope.currPage).
-                                success(function(data, status, headers, config) {
-                                    $scope.gameList = data;
-
-                                }).
-                                error(function(data, status, headers, config) {
-                                    alert('<spring:message code="game.list.error.message"/>');
-                                });
+                        $scope.reloadGameList()
                     }).
                     error(function(data, status, headers, config) {
                         alert('<spring:message code="game.list.error.message"/>');
@@ -325,7 +320,7 @@
             $('#gameTitle').val(data.title);
             $('#gameDescription').val(data.description);
             $('#gameCategory').selectpicker('val', data.category);
-            $('#gameImage').attr('src', 'gameList/getGameImge?gameId=' + data.id);
+            $('#gameImage').attr('src', 'gameList/getGameImge?gameId=' + data.id + "&time=" + new Date().getTime());
             $('#gameImage').show();
             enterEdit(false);
         }
@@ -337,6 +332,7 @@
             {
                 $scope.uploadFile();
             }
+            $scope.reloadGameList();
         };
 
         $scope.uploadFile = function() {
@@ -349,6 +345,7 @@
             }
             else {
                 fd.append("gameId", $scope.editingGameId)
+
             }
             fd.append("gameTitle", document.getElementById("gameTitle").value);
             fd.append("gameCategory", $('#gameCategory').val());
@@ -381,6 +378,7 @@
             $http.get('gameList/getGameList?pageNum=' + $scope.currPage).
                     success(function(data, status, headers, config) {
                         $scope.gameList = data;
+                        $scope.time = new Date().getTime();
                     }).
                     error(function(data, status, headers, config) {
                         alert('<spring:message code="game.list.error.message"/>');
