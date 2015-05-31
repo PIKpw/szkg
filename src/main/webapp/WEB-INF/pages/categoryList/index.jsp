@@ -248,8 +248,15 @@
         $scope.cancelEditing = function()
         {
             clearEditModal();
-            $scope.setDetailParameter($scope.editingCategoryId);
-            enterEdit(false);
+            if ($scope.editingCategoryId != "new")
+            {
+                $scope.setDetailParameter($scope.editingCategoryId);
+                enterEdit(false);
+            }
+            else
+            {
+                $('#detailModal').modal('hide');
+            }
         };
 
         $scope.setDetailParameter = function(categoryId)
