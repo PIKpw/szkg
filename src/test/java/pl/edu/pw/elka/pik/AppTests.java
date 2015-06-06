@@ -33,7 +33,7 @@ public class  AppTests extends AbstractTestNGSpringContextTests {
         this.mockMvc = webAppContextSetup(this.wac).build();
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("hello"));
+                .andExpect(view().name("forward:gameList"));
 
     }
 }
