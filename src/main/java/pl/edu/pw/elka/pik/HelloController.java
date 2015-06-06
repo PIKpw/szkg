@@ -14,15 +14,13 @@ import java.util.List;
 @RequestMapping("/")
 public class HelloController {
 
-    @Autowired
-    private GameDAO gameDAO;
-
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView printWelcome() {
-        List<Game> listGames = gameDAO.list();
+    public String hello() {
+        /*List<Game> listGames = gameDAO.list();
         ModelAndView model = new ModelAndView("hello");
         model.addObject("gameList", listGames);
         model.addObject("message", "Hello World from SZKG!");
-        return model;
+        return model;*/
+        return "forward:gameList";
     }
 }

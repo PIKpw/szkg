@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 
 <head>
 
-
+    <sec:csrfMetaTags/>
     <jsp:include page="/WEB-INF/pages/shared/resources.jsp"/>
 </head>
 
@@ -295,8 +296,12 @@
             }
             fd.append("categoryName", document.getElementById("categoryName").value);
 
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var token = $("meta[name='_csrf']").attr("content");
+
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "categoryList/saveCategory", false);
+            xhr.setRequestHeader(header, token);
             xhr.send(fd);
             var jsonResponse = JSON.parse(xhr.responseText);
             $scope.setDetailParameterValue(jsonResponse);

@@ -13,7 +13,7 @@ import java.util.List;
 public interface GameDAO {
     List<Game> list();
 
-    List<GameSimpleItem> getGameSimpleItem(int from, int to);
+    List<GameSimpleItem> getGameSimpleItem(String username, boolean wishList, int from, int to);
 
     int getGameSimpleItemCount();
 
@@ -21,9 +21,11 @@ public interface GameDAO {
 
     boolean deleteGame(int gameId);
 
+    boolean addGameToCollection(int gameId);
+
     GameDetailItem getGameDetail(int gameId);
 
-    int createGame(String gameTitle, List<Integer> gameCategory, String gameDescription, byte[] image);
+    int createGame(String gameTitle, String username, boolean wishList, List<Integer> gameCategory, String gameDescription, byte[] image);
 
-    void updateGame(int gameId, String gameTitle, List<Integer> gameCategory, String gameDescription, byte[] image);
+    void updateGame(int gameId, String gameTitle, String username, boolean wishList, List<Integer> gameCategory, String gameDescription, byte[] image);
 }
