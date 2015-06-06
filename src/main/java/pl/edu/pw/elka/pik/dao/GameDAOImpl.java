@@ -44,9 +44,12 @@ public class GameDAOImpl implements GameDAO {
         return listUser;
     }
 
+    /*
+    @TODO Do poprawki porzadnie zapytanie zrobic
+     */
     @Override
     @Transactional
-    public List<GameSimpleItem> getGameSimpleItem(int from, int to) {
+    public List<GameSimpleItem> getGameSimpleItem(String username, boolean wishList, int from, int to) {
         List<Game> listUser = sessionFactory.getCurrentSession()
                 .createCriteria(Game.class)
                 .setFirstResult(from)
@@ -54,7 +57,9 @@ public class GameDAOImpl implements GameDAO {
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
         List<GameSimpleItem> list = new ArrayList<GameSimpleItem>();
         for(Game g : listUser){
-            list.add(new GameSimpleItem(g));
+            if (g.getUsername().equals(username) && (g.isWishList() == wishList)) {
+                list.add(new GameSimpleItem(g));
+            }
         }
 
         return list;
@@ -146,6 +151,28 @@ public class GameDAOImpl implements GameDAO {
         return detailItem;
     }
 
+    @Override
+    @Transactional
+    public boolean addGameToCollection(int gameId) {
+        LOGGER.info("Szukam gry");
+        Game game = (Game) sessionFactory.getCurrentSession()
+                .createCriteria(Game.class)
+                .add(Restrictions.eq("id",gameId))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+
+        LOGGER.info("Wybrano giere");
+
+        game.setWishList(false);
+
+        try {
+            sessionFactory.getCurrentSession().save(game);
+        } catch (Exception e){
+            LOGGER.warning("Error in addGameToCollection - " + e.getMessage());
+        }
+
+        return true;
+    }
+
     private Set<Category> getGameCategories(Collection<Integer> categoryIds){
         List<Category> ctg = sessionFactory.getCurrentSession()
                 .createCriteria(Category.class)
@@ -156,8 +183,10 @@ public class GameDAOImpl implements GameDAO {
 
     @Override
     @Transactional
-    public int createGame(String gameTitle, List<Integer> gameCategory, String gameDescription, byte[] image) {
+    public int createGame(String gameTitle, String username, boolean wishList, List<Integer> gameCategory, String gameDescription, byte[] image) {
         Game game = new Game();
+        game.setUsername(username);
+        game.setWishList(wishList);
         game.setDescription(gameDescription);
         game.setName(gameTitle);
         game.setCategories(getGameCategories(gameCategory));
@@ -177,9 +206,11 @@ public class GameDAOImpl implements GameDAO {
 
     @Override
     @Transactional
-    public void updateGame(int gameId, String gameTitle, List<Integer> gameCategory, String gameDescription, byte[] image) {
+    public void updateGame(int gameId, String gameTitle, String username, boolean wishList, List<Integer> gameCategory, String gameDescription, byte[] image) {
         Game game = new Game();
         game.setId(gameId);
+        game.setUsername(username);
+        game.setWishList(wishList);
         game.setName(gameTitle);
         game.setDescription(gameDescription);
         game.setCategories(getGameCategories(gameCategory));

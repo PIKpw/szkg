@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <style>
     #custom-bootstrap-menu.navbar-default .navbar-brand {
         color: rgba(0, 0, 0, 1);
@@ -48,7 +49,7 @@
     }
 </style>
 
-<div id="custom-bootstrap-menu" class="navbar navbar-default " role="navigation">
+<div id="custom-bootstrap-menu" class="navbar navbar-default " role="navigation" ng-app="">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder">
@@ -67,7 +68,28 @@
                 </li>
                 <li><a href="/categoryList"><spring:message code="header.category"/></a>
                 </li>
+                <li><a id="logout" href="/login"><spring:message code="header.logout"/></a>
+                </li>
             </ul>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    window.onload = function() {
+
+        var a = document.getElementById("logout");
+
+        a.onclick = function() {
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var token = $("meta[name='_csrf']").attr("content");
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "logout", false);
+            xhr.setRequestHeader(header, token);
+            xhr.send();
+            return true;
+        }
+    }
+</script>

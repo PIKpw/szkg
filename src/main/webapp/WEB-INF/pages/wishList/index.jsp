@@ -11,26 +11,46 @@
 </head>
 
 <body>
-<div class="container" ng-app="GameList" ng-controller="GameListController">
+<div class="container" ng-app="WishList" ng-controller="WishListController">
 <!-- Modal Delete -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="confirmDeleteModalLabel"><spring:message code="game.list.modal.delete.title"/></h4>
+                <h4 class="modal-title" id="confirmDeleteModalLabel"><spring:message code="wish.list.modal.delete.title"/></h4>
             </div>
             <div class="modal-body">
 
                <p id="confirmDeleteModalMessage"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="game.list.modal.delete.button.close"/></button>
-                <button type="button" class="btn btn-danger" ng-click="deleteGameConfirm()" ><spring:message code="game.list.modal.delete.button.confirm"/></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="wish.list.modal.delete.button.close"/></button>
+                <button type="button" class="btn btn-danger" ng-click="deleteGameConfirm()" ><spring:message code="wish.list.modal.delete.button.confirm"/></button>
             </div>
         </div>
     </div>
 </div>
+
+    <!-- Modal Add -->
+    <div class="modal fade" id="confirmAddModal" tabindex="-1" role="dialog" aria-labelledby="confirmAddModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="confirmAddModalLabel"><spring:message code="wish.list.modal.delete.title"/></h4>
+                </div>
+                <div class="modal-body">
+
+                    <p id="confirmAddModalMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="wish.list.modal.add.button.close"/></button>
+                    <button type="button" class="btn btn-success" ng-click="addGameConfirm()" ><spring:message code="wish.list.modal.add.button.confirm"/></button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <!-- Modal Edit -->
 <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
@@ -39,14 +59,14 @@
             <form class="form-horizontal" ng-submit="submit()" name="GameDetailForm" novalidate>
             <div class="modal-header ">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="detailModalLabel"><spring:message code="game.list.modal.detail.title"/></h4>
+                <h4 class="modal-title" id="detailModalLabel"><spring:message code="wish.list.modal.detail.title"/></h4>
             </div>
             <div class="modal-body">
                     <div class="form-group">
                         <label for="gameTitle" class="col-sm-2 control-label">Tytuł</label>
                         <div class="col-sm-10">
                             <span style="color:red" id="gameTitleErrorMessage" hidden="true">Tytuł jest wymagany.</span>
-                            <input type="text" class="form-control" id="gameTitle" placeholder="Tyuł" >
+                            <input type="text" class="form-control" id="gameTitle" placeholder="Tytuł" >
 
                         </div>
                     </div>
@@ -78,10 +98,10 @@
 
             </div>
             <div class="modal-footer">
-                <button id="detailModalEditButton" type="button" class="btn btn-info" ng-click="startEditing()"><spring:message code="game.list.modal.detail.button.edit"/></button>
-                <button id="detailModalCancelButton" type="button" class="btn btn-warning" ng-click="cancelEditing()"><spring:message code="game.list.modal.detail.button.cancel"/></button>
-                <button id="detailModalCloseButton" type="button" class="btn btn-prinary" data-dismiss="modal"><spring:message code="game.list.modal.detail.button.close"/></button>
-                <input id="detailModalSaveButton" type="submit" class="btn btn-success" value='<spring:message code="game.list.modal.detail.button.confirm"/>'>
+                <button id="detailModalEditButton" type="button" class="btn btn-info" ng-click="startEditing()"><spring:message code="wish.list.modal.detail.button.edit"/></button>
+                <button id="detailModalCancelButton" type="button" class="btn btn-warning" ng-click="cancelEditing()"><spring:message code="wish.list.modal.detail.button.cancel"/></button>
+                <button id="detailModalCloseButton" type="button" class="btn btn-prinary" data-dismiss="modal"><spring:message code="wish.list.modal.detail.button.close"/></button>
+                <input id="detailModalSaveButton" type="submit" class="btn btn-success" value='<spring:message code="wish.list.modal.detail.button.confirm"/>'>
             </div>
             </form>
         </div>
@@ -94,8 +114,8 @@
             <div class="panel-heading">
                 <span>
                     <h2>
-                        <spring:message code="game.list.title"/>
-                        <button class="btn btn-primary pull-right" title='<spring:message code="game.list.button.add.desc"/>' ng-click="editGame('new')" ><spring:message code="game.list.button.add"/></button>
+                        <spring:message code="wish.list.title"/>
+                        <button class="btn btn-primary pull-right" title='<spring:message code="wish.list.button.add.desc"/>' ng-click="editGame('new')" ><spring:message code="wish.list.button.add"/></button>
                     </h2>
                 </span>
 
@@ -112,12 +132,13 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="game in gameList">
-                            <td><div align="center"><img id="img-id-{{game.id}}" ng-src="gameList/getGameImge?gameId={{game.id}}&time={{time}}" width="184" height="69" alt="Brak"/></div></td>
+                            <td><div align="center"><img id="img-id-{{game.id}}" ng-src="wishList/getGameImge?gameId={{game.id}}&time={{time}}" width="184" height="69" alt="Brak"/></div></td>
                             <td>{{game.title}}</td>
                             <td>
                                 <span class="pull-right">
-                                    <button class="btn btn-info" ng-click="editGame(game.id)"><spring:message code="game.list.table.button.edit"/></button>
-                                    <button class="btn btn-danger" ng-click="deleteGame(game.id)" ><spring:message code="game.list.table.button.delete"/></button>
+                                    <button class="btn btn-success" ng-click="addGame(game.id)"><spring:message code="wish.list.table.button.add"/></button>
+                                    <button class="btn btn-info" ng-click="editGame(game.id)"><spring:message code="wish.list.table.button.edit"/></button>
+                                    <button class="btn btn-danger" ng-click="deleteGame(game.id)" ><spring:message code="wish.list.table.button.delete"/></button>
                                 </span>
 
 
@@ -244,8 +265,8 @@
         changeEditModalButtons(!enter);
     };
 
-    var app = angular.module('GameList', []);
-    app.controller('GameListController', function($scope, $http, $filter)
+    var app = angular.module('WishList', []);
+    app.controller('WishListController', function($scope, $http, $filter)
     {
         $scope.currPage = 1;
         $scope.gamesPerPage = 10;
@@ -255,23 +276,45 @@
         $scope.deleteGame = function(gameId)
         {
             $scope.gameToDelete = $filter('filter')($scope.gameList, {id: gameId}, true)[0];
-            $('#confirmDeleteModalMessage').html('<spring:message code="game.list.modal.delete.message"/>' + ' ' + $scope.gameToDelete.title);
+            $('#confirmDeleteModalMessage').html('<spring:message code="wish.list.modal.delete.message"/>' + ' ' + $scope.gameToDelete.title);
             $('#confirmDeleteModal').modal('show');
         };
 
         $scope.deleteGameConfirm = function()
         {
-            $http.get('gameList/deleteGame?gameId=' + $scope.gameToDelete.id).
+            $http.get('wishList/deleteGame?gameId=' + $scope.gameToDelete.id).
                     success(function(data, status, headers, config) {
                         $scope.reloadGameList()
                     }).
                     error(function(data, status, headers, config) {
-                        alert('<spring:message code="game.list.error.message"/>');
+                        alert('<spring:message code="wish.list.error.message"/>');
                     });
             $scope.gameToDelete = NaN;
             $('#confirmDeleteModalMessage').html('');
             $('#confirmDeleteModal').modal('hide');
         };
+
+//        @TODO no do zrobienia
+        $scope.addGame = function(gameId)
+        {
+            $scope.gameToAdd = $filter('filter')($scope.gameList, {id: gameId}, true)[0];
+            $('#confirmAddModalMessage').html('<spring:message code="wish.list.modal.add.message"/>' + ' ' + $scope.gameToAdd.title);
+            $('#confirmAddModal').modal('show');
+        }
+
+        $scope.addGameConfirm = function()
+        {
+            $http.get("/wishList/addGame?gameId=" + $scope.gameToAdd.id)
+                    .success(function(){
+                        $scope.reloadGameList();
+                    })
+                    .error(function(){
+                        alert('<spring:message code="wish.list.error.message"/>');
+                    });
+            $scope.gameToAdd = NaN;
+            $('#confirmAddModalMessage').html('');
+            $('#confirmAddModal').modal('hide');
+        }
 
         $scope.editGame = function(gameId)
         {
@@ -311,13 +354,13 @@
         $scope.setDetailParameter = function(gameId)
         {
             if (gameId != 'new') {
-                $http.get('gameList/getGameDetail?gameId=' + gameId).
+                $http.get('wishList/getGameDetail?gameId=' + gameId).
                         success(function (data, status, headers, config)
                         {
                             $scope.setDetailParameterValue(data);
                         }).
                         error(function (data, status, headers, config) {
-                            alert('<spring:message code="game.list.error.message"/>');
+                            alert('<spring:message code="wish.list.error.message"/>');
                         });
             }
         };
@@ -329,7 +372,7 @@
             $('#gameTitle').val(data.title);
             $('#gameDescription').val(data.description);
             $('#gameCategory').selectpicker('val', data.category);
-            $('#gameImage').attr('src', 'gameList/getGameImge?gameId=' + data.id + "&time=" + new Date().getTime());
+            $('#gameImage').attr('src', 'wishList/getGameImge?gameId=' + data.id + "&time=" + new Date().getTime());
             $('#gameImage').show();
             enterEdit(false);
         }
@@ -354,17 +397,17 @@
             }
             else {
                 fd.append("gameId", $scope.editingGameId)
-
             }
             fd.append("gameTitle", document.getElementById("gameTitle").value);
             fd.append("gameCategory", $('#gameCategory').val());
+            fd.append("wishList", true);
             fd.append("gameDescription", document.getElementById("gameDescription").value);
 
             var header = $("meta[name='_csrf_header']").attr("content");
             var token = $("meta[name='_csrf']").attr("content");
 
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "gameList/saveGame", false);
+            xhr.open("POST", "wishList/saveGame", false);
             xhr.setRequestHeader(header, token);
             xhr.send(fd);
             var jsonResponse = JSON.parse(xhr.responseText);
@@ -388,13 +431,13 @@
 
         $scope.reloadGameList = function()
         {
-            $http.get('gameList/getGameList?pageNum=' + $scope.currPage).
+            $http.get('wishList/getGameList?pageNum=' + $scope.currPage).
                     success(function(data, status, headers, config) {
                         $scope.gameList = data;
                         $scope.time = new Date().getTime();
                     }).
                     error(function(data, status, headers, config) {
-                        alert('<spring:message code="game.list.error.message"/>');
+                        alert('<spring:message code="wish.list.error.message"/>');
                     });
         }
 
@@ -422,7 +465,7 @@
                     $scope.categoryList = data;
                 }).
                 error(function(data, status, headers, config) {
-                    alert('<spring:message code="game.list.error.message"/>');
+                    alert('<spring:message code="wish.list.error.message"/>');
                 });
         $('#gameImageFile').change(function()
         {

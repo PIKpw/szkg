@@ -9,9 +9,11 @@ import java.util.Set;
 public class Game implements Serializable{
 
     private int id;
+    private String username;
     private String name;
     private String description;
     private Set<Category> categories;
+    private boolean wishList;
 
     public int getId() {
         return id;
@@ -19,6 +21,14 @@ public class Game implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {
@@ -43,5 +53,13 @@ public class Game implements Serializable{
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    public boolean isWishList() {
+        return wishList;
+    }
+
+    public void setWishList(boolean wishList) {
+        this.wishList = wishList;
     }
 }
