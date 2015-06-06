@@ -51,14 +51,14 @@ CREATE TABLE `GameImages` (
 ) DEFAULT CHARSET=utf8;
 commit;
 
-insert into users(username, password, enabled) values
+insert into Users(username, password, enabled) values
   ("mikolaj", "pass", true);
 
-insert into authorities(username, authorities) values
+insert into Authorities(username, authority) values
   ("mikolaj", "ROLE_USER");
 
-insert into users(username, password, enabled) values
+insert into Users(username, password, enabled) values
   ("user", "pass", true);
 
-insert into authorities(username, authorities) values
+insert into Authorities(username, authority) values
   ("user", "ROLE_USER");
