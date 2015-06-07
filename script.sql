@@ -1,4 +1,4 @@
-CREATE TABLE `Users`(
+CREATE TABLE `users`(
   `username` varchar (50) NOT NULL,
   `password` varchar (50) NOT NULL,
   `enabled` boolean NOT NULL,
@@ -6,14 +6,14 @@ CREATE TABLE `Users`(
 ) DEFAULT CHARSET=utf8;
 commit;
 
-CREATE TABLE `Authorities` (
+CREATE TABLE `authorities` (
   `username` varchar (50) NOT NULL,
   `authority` varchar (50) NOT NULL,
-  CONSTRAINT fk_authorities_users foreign key(username) references Users(username)
+  CONSTRAINT fk_authorities_users foreign key(username) references users(username)
 ) DEFAULT CHARSET=utf8;
 
 create unique index ix_auth_username on
-  Authorities (username, authority);
+  authorities (username, authority);
 commit;
 
 CREATE TABLE `Games` (
@@ -23,7 +23,7 @@ CREATE TABLE `Games` (
   `description` varchar(200) DEFAULT NULL,
   `wishList` BOOLEAN NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `FK_USERS_USERNAME` FOREIGN KEY (`username`) REFERENCES `Users` (`username`)
+  CONSTRAINT `FK_USERS_USERNAME` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 ) DEFAULT CHARSET=utf8;
 commit;
 
@@ -51,14 +51,16 @@ CREATE TABLE `GameImages` (
 ) DEFAULT CHARSET=utf8;
 commit;
 
-insert into Users(username, password, enabled) values
+insert into users(username, password, enabled) values
   ("mikolaj", "pass", true);
 
-insert into Authorities(username, authority) values
+insert into authorities(username, authority) values
   ("mikolaj", "ROLE_USER");
 
-insert into Users(username, password, enabled) values
+insert into users(username, password, enabled) values
   ("user", "pass", true);
 
-insert into Authorities(username, authority) values
+insert into authorities(username, authority) values
   ("user", "ROLE_USER");
+
+commit;
